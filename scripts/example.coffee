@@ -10,6 +10,9 @@
 
 module.exports = (robot) ->
 
+  robot.hear /李承宇|sam/i, (msg) ->
+    msg.send "我們 Commandp 偉大的 CEO!!!"
+
   robot.hear /api/i, (msg) ->
     robot.http("https://staging.commandp.com/api/shipping_fee")
       .header('Accept', 'application/commandp.v1 application/json')
