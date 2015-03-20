@@ -10,6 +10,15 @@
 
 module.exports = (robot) ->
 
+  robot.hear /(.*)/i, (msg) ->
+    info = msg.match[1]
+    robot.http("http://www.tuling123.com/openapi/api?key=a7f8479ac68448311b00ab43823b7077&info=#{info}")
+      .header('Accept', 'application/json')
+      .get() (err, res, body) ->
+        data = JSON.parse(body)
+        console.log data
+        msg.reply data.text
+
   robot.hear /李承宇|sam/i, (msg) ->
     msg.send "我們 Commandp 偉大的 CEO!!!"
 
