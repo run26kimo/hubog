@@ -11,18 +11,22 @@
 module.exports = (robot) ->
 
   robot.hear /api/i, (msg) ->
-    robot.http("https://staging.commandp.coma/api/shipping_fee")
-      .header('Accept', 'application/commandp.v1')
+    robot.http("https://staging.commandp.com/api/shipping_fee")
+      .header('Accept', 'application/commandp.v1 application/json')
       .get() (err, res, body) ->
-        msg.send body
+        data = JSON.parse(body)
+        console.log data
+        msg.send data.name
+        for c in data.currencies
+          msg.send "name:#{c.name} code:#{c.code} price:#{c.price} "
 
   robot.hear /午餐|lunch/i, (msg) ->
-    lunch = ['麥當勞', 'IKEA', 'Subway', '大江南北', '海南雞']
-    msg.send "吃 #{msg.random lunch} 好嗎？"
+    lunch = ['麥當勞', 'IKEA', 'Subway', '大江南北', '海南雞', 'MOS']
+    msg.reply "吃 #{msg.random lunch} 好嗎？"
 
   robot.hear /早餐|breakfast/i, (msg) ->
     breakfast = ['7-11', '碳烤三明治', 'chat caffe']
-    msg.send msg.random breakfast
+    msg.reply msg.random breakfast
 
   robot.respond /open the (.*) doors/i, (msg) ->
     doorType = msg.match[1]
