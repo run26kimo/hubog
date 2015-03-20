@@ -10,21 +10,32 @@
 
 module.exports = (robot) ->
 
-  # robot.hear /badger/i, (msg) ->
-  #   msg.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
-  #
-  # robot.respond /open the (.*) doors/i, (msg) ->
-  #   doorType = msg.match[1]
-  #   if doorType is "pod bay"
-  #     msg.reply "I'm afraid I can't let you do that."
-  #   else
-  #     msg.reply "Opening #{doorType} doors"
-  #
+  robot.hear /api/i, (msg) ->
+    robot.http("https://staging.commandp.coma/api/shipping_fee")
+      .header('Accept', 'application/commandp.v1')
+      .get() (err, res, body) ->
+        msg.send body
+
+  robot.hear /午餐|lunch/i, (msg) ->
+    lunch = ['麥當勞', 'IKEA', 'Subway', '大江南北', '海南雞']
+    msg.send "吃 #{msg.random lunch} 好嗎？"
+
+  robot.hear /早餐|breakfast/i, (msg) ->
+    breakfast = ['7-11', '碳烤三明治', 'chat caffe']
+    msg.send msg.random breakfast
+
+  robot.respond /open the (.*) doors/i, (msg) ->
+    doorType = msg.match[1]
+    if doorType is "pod bay"
+      msg.reply "I'm afraid I can't let you do that."
+    else
+      msg.reply "Opening #{doorType} doors"
+
   # robot.hear /I like pie/i, (msg) ->
   #   msg.emote "makes a freshly baked pie"
-  #
+
   # lulz = ['lol', 'rofl', 'lmao']
-  #
+
   # robot.respond /lulz/i, (msg) ->
   #   msg.send msg.random lulz
   #
@@ -34,9 +45,10 @@ module.exports = (robot) ->
   #
   # enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
   # leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
-  #
+
   # robot.enter (msg) ->
   #   msg.send msg.random enterReplies
+
   # robot.leave (msg) ->
   #   msg.send msg.random leaveReplies
   #
