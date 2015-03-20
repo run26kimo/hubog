@@ -10,7 +10,7 @@
 
 module.exports = (robot) ->
 
-  robot.hear /(.*)/i, (msg) ->
+  robot.hear /t (.*)/i, (msg) ->
     info = msg.match[1]
     robot.http("http://www.tuling123.com/openapi/api?key=a7f8479ac68448311b00ab43823b7077&info=#{info}")
       .header('Accept', 'application/json')
