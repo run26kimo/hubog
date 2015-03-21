@@ -6,6 +6,7 @@
   "description": "Small R",
   "dependencies": {
     "hubot": "^2.11.4",
+    "hubot-cron": "^0.2.7",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.1.4",
     "hubot-google-translate": "^0.1.0",
@@ -19,7 +20,8 @@
     "hubot-shipit": "^0.1.2",
     "hubot-slack": "^3.3.0",
     "hubot-where": "^0.1.0",
-    "hubot-youtube": "^0.1.2"
+    "hubot-youtube": "^0.1.2",
+    "time": "^0.11.1"
   },
   "engines": {
     "node": "0.10.x"
