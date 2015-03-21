@@ -16,11 +16,9 @@ module.exports = (robot) ->
       .header('Accept', 'application/json')
       .get() (err, res, body) ->
         data = JSON.parse(body)
-        console.log data
         msg.reply data.text
+        msg.send data.url if data.url
 
-  robot.hear /李承宇|sam/i, (msg) ->
-    msg.send "我們 Commandp 偉大的 CEO!!!"
 
   robot.hear /api/i, (msg) ->
     robot.http("https://staging.commandp.com/api/shipping_fee")
