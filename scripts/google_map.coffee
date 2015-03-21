@@ -15,21 +15,19 @@ module.exports = (robot) ->
 
     if origin == destination
       return msg.send "Now you're just being silly."
-
-    if !key
-      msg.send "Please enter your Google API key in the environment variable HUBOT_GOOGLE_API_KEY."
-
     if mode == 'bike' or mode == 'biking'
       mode = 'bicycling'
 
+    # if !key
+    #   msg.send "Please enter your Google API key in the environment variable HUBOT_GOOGLE_API_KEY."
     url         = "https://maps.googleapis.com/maps/api/directions/json"
     query       =
       mode:        mode
-      # key:         key
       origin:      origin
       destination: destination
       sensor:      false
       language:    'zh-TW'
+      # key:         key
 
     robot.http(url).query(query).get()((err, res, body) ->
       jsonBody = JSON.parse(body)
@@ -58,16 +56,16 @@ module.exports = (robot) ->
 
   robot.respond /(?:(satellite|terrain|hybrid)[- ])?map( me)? (.+)/i, (msg) ->
     mapType  = msg.match[1] or "roadmap"
-    location = msg.match[3]
+    location = encodeURIComponent(msg.match[3])
     mapUrl   = "http://maps.google.com/maps/api/staticmap?markers=" +
                 location +
-                "&size=400x400&maptype=" +
+                "&size=600x600&maptype=" +
                 mapType +
                 "&sensor=false" +
                 "&format=png" # So campfire knows it's an image
     url      = "http://maps.google.com/maps?q=" +
                location +
-              "&hl=zh&sll=37.0625,-95.677068&sspn=73.579623,100.371094&vpsrc=0&hnear=" +
+              "&hl=zh-TW&sll=37.0625,-95.677068&sspn=73.579623,100.371094&vpsrc=0&hnear=" +
               location +
               "&t=m&z=11"
 
