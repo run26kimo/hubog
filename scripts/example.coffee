@@ -10,14 +10,25 @@
 
 module.exports = (robot) ->
 
-  robot.hear /t (.*)/i, (msg) ->
-    info = msg.match[1]
-    robot.http("http://www.tuling123.com/openapi/api?key=a7f8479ac68448311b00ab43823b7077&info=#{info}")
-      .header('Accept', 'application/json')
-      .get() (err, res, body) ->
-        data = JSON.parse(body)
-        msg.reply data.text
-        msg.send data.url if data.url
+  # robot.hear /t (.*)/i, (msg) ->
+  #   info = msg.match[1]
+  #   robot.http("http://www.tuling123.com/openapi/api?key=a7f8479ac68448311b00ab43823b7077&info=#{info}")
+  #     .header('Accept', 'application/json')
+  #     .get() (err, res, body) ->
+  #       data = JSON.parse(body)
+  #       msg.reply data.text
+  #       msg.send data.url if data.url
+
+  robot.hear /ptt/i, (msg) ->
+    streamy = require('streamy-data')
+    streamy.ptt.board('food', limit: 1).pipe(streamy.ptt.post()).on('data', (data) ->
+      post_url = "https://www.ptt.cc/bbs/#{data.board}/#{data.post}.html"
+      post = "#{data.board} / #{data.title} by #{data.author}"
+      msg.send post
+      msg.send post_url
+      return
+    )
+
 
 
   robot.hear /api/i, (msg) ->
