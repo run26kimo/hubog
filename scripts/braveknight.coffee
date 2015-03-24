@@ -1020,5 +1020,5 @@ module.exports = (robot) ->
     times = msg.match[1] || 1
     for [1..times]
       qa = msg.random(braveknight_qa)
-      msg.send qa.q
-      msg.send qa.a
+      msg.send "問題: #{qa.q}"
+      msg.send "答案: #{qa.a}"
