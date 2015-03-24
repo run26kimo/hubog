@@ -9,6 +9,15 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
+  # inslide
+  robot.respond /inslide/i, (msg) ->
+    robot.http("https://www.kimonolabs.com/api/5hhho8zw?apikey=qnRSfhB5Nu8kcrj2Jkkk8DLzW5O0k6Xh")
+      .header('Accept', 'application/json')
+      .get() (err, res, body) ->
+        data = JSON.parse(body)
+        for post in data.results.collection1
+          msg.send post.property1.text
+          msg.send post.property1.href
 
   robot.respond /t (.*)/i, (msg) ->
     info = msg.match[1]
